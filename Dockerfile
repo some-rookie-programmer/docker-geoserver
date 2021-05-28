@@ -18,7 +18,8 @@ ARG GEOSERVER_GID=10001
 #Install extra fonts to use with sld font markers
 RUN apt-get -y update; apt-get install -y fonts-cantarell lmodern ttf-aenigma ttf-georgewilliams ttf-bitstream-vera \
     ttf-sjfonts tv-fonts build-essential libapr1-dev libssl-dev  gdal-bin libgdal-java wget zip curl xsltproc certbot \
-    certbot  cabextract
+    certbot  cabextract \
+    fontconfig
 
 RUN wget http://ftp.br.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.6_all.deb && \
     dpkg -i ttf-mscorefonts-installer_3.6_all.deb && rm ttf-mscorefonts-installer_3.6_all.deb
@@ -93,6 +94,8 @@ RUN cp /build_data/stable_plugins.txt /plugins && cp /build_data/community_plugi
     cp /build_data/letsencrypt-tomcat.xsl ${CATALINA_HOME}/conf && \
     cp /build_data/tomcat-users.xml /usr/local/tomcat/conf
 
+COPY fonts/msyh /usr/share/fonts/
+RUN cd /usr/share/fonts && mkfontscale && mkfontdir && fc-cache -fv
 
 ADD scripts /scripts
 RUN chmod +x /scripts/*.sh
