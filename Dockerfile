@@ -94,7 +94,8 @@ RUN cp /build_data/stable_plugins.txt /plugins && cp /build_data/community_plugi
     cp /build_data/letsencrypt-tomcat.xsl ${CATALINA_HOME}/conf && \
     cp /build_data/tomcat-users.xml /usr/local/tomcat/conf
 
-COPY fonts/msyh /usr/share/fonts/
+RUN mkdir -p /usr/share/fonts/msyh
+COPY fonts/msyh /usr/share/fonts/msyh
 RUN cd /usr/share/fonts && mkfontscale && mkfontdir && fc-cache -fv
 
 ADD scripts /scripts
